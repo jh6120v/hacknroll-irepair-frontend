@@ -20,9 +20,6 @@ const Logo = styled.div`
 `;
 
 const Panel = styled.div`
-  position: absolute;
-  left: 0;
-  bottom: 0;
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
@@ -31,6 +28,12 @@ const Panel = styled.div`
   box-shadow: 0 5px 18px 0 rgba(200,75,98,1);
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
+  z-index: 1;
+  ${(props) => (props.absolute ? css`
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  ` : null)}
 `;
 
 const PanelTitle = styled.div`
@@ -50,7 +53,7 @@ const PanelButtonWrap = styled.div`
 `;
 
 const PanelButton = styled.div`
-  width: 67vw;
+  width: 67%;
   border-radius: 10px;
   font-size: 19px;
   letter-spacing: .68px;
@@ -59,30 +62,30 @@ const PanelButton = styled.div`
   color: #fff;
   text-align: center;
   font-weight: 300;
-  background-color: ${(props) => props.bgColor ? props.bgColor : '#f1828d'};
+  background-color: ${(props) => (props.bgColor ? props.bgColor : '#f1828d')};
   ${(props) => {
-    if (props.icon) {
-      let icon;
-      switch (props.icon) {
-        case 'icon-1':
-            icon = icon1;
-            break;
-        case 'icon-2':
-            icon = icon2;
-            break;
-        case 'icon-3':
-        default:
-            icon = icon3;
-      }
-    
-      return css`
-        background-repeat: no-repeat;
-        background-size: 28px 28px;
-        background-position: 34px center;
-        background-image: url(${icon});
-      `;
-    }
-}}
+        if (props.icon) {
+            let icon;
+            switch (props.icon) {
+                case 'icon-1':
+                    icon = icon1;
+                    break;
+                case 'icon-2':
+                    icon = icon2;
+                    break;
+                case 'icon-3':
+                default:
+                    icon = icon3;
+            }
+
+            return css`
+              background-repeat: no-repeat;
+              background-size: 28px 28px;
+              background-position: 34px center;
+              background-image: url(${icon});
+            `;
+        }
+    }}
 `;
 
 export {
@@ -92,4 +95,4 @@ export {
     PanelTitle,
     PanelButtonWrap,
     PanelButton
-}
+};

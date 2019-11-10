@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { ContainerInner } from "../../../styles/layout-style";
-import { Header, Logo } from "../styles";
-import TopicPanel from "../components/topic-panel";
-import ModePanel from "../components/mode-panel";
+import { ContainerInner } from '../../../styles/layout-style';
+import { Header, Logo } from '../styles';
+import TopicPanel from '../components/topic-panel';
+import ModePanel from '../components/mode-panel';
 
 const IRepair = () => {
     const [modeOpen, setModeOpen] = useState(false);
@@ -12,8 +12,12 @@ const IRepair = () => {
             <Header>
                 <Logo />
             </Header>
-            <TopicPanel setModeOpen={setModeOpen} />
-            <ModePanel isVisible={modeOpen} />
+            <TopicPanel absolute setModeOpen={setModeOpen} />
+            {
+                modeOpen ? (
+                    <ModePanel isVisible={modeOpen} />
+                ) : null
+            }
         </ContainerInner>
     );
 };
