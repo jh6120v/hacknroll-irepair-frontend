@@ -1,8 +1,10 @@
 import { lazy } from 'react';
 import { waitingRouteComponent } from '../commons/utils';
+import Chat from './chat';
 
 const IRepair = lazy(() => import('./i-repair'));
-const Chat = lazy(() => import('./chat'));
+const Register = lazy(() => import('./register'));
+const Pay = lazy(() => import('./pay'));
 
 const DEFAULT_SCENE_CONFIG = {
     enter: 'page-fade-in',
@@ -17,7 +19,25 @@ export const RouterConfig = [
     },
     {
         path: '/chat',
-        component: waitingRouteComponent(Chat),
+        component: Chat,
+        exact: true,
+        sceneConfig: {
+            enter: 'page-right-forward',
+            exit: 'page-right-back'
+        }
+    },
+    {
+        path: '/register',
+        component: waitingRouteComponent(Register),
+        exact: true,
+        sceneConfig: {
+            enter: 'page-right-forward',
+            exit: 'page-right-back'
+        }
+    },
+    {
+        path: '/pay',
+        component: waitingRouteComponent(Pay),
         exact: true,
         sceneConfig: {
             enter: 'page-right-forward',

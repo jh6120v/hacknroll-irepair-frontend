@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { ContainerInner } from '../../../styles/layout-style';
-import { Header, Logo } from '../styles';
+import { ContainerInner, Header, Logo } from '../../../styles/layout-style';
 import TopicPanel from '../components/topic-panel';
 import ModePanel from '../components/mode-panel';
 

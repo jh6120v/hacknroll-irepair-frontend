@@ -6,7 +6,7 @@ import tailRight from '../../../assets/images/tail-right.svg';
 
 const ChatContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-content: flex-start;
   flex-direction: column;
   background-color: #fff;
@@ -15,7 +15,6 @@ const ChatContainer = styled.div`
   border-top-right-radius: 25px;
   margin-top: 13px;
   height: calc(100vh - 44px - 13px - env(safe-area-inset-top));
-  
   overflow: hidden;
 `;
 
@@ -32,19 +31,19 @@ const ChatBoxContainer = styled.div`
   width: 100%;
   margin-bottom: 13px;
   ${(props) => {
-    if (props.theme.isSelf) {
-        return css`
+        if (props.theme.isSelf) {
+            return css`
           flex-direction: row-reverse;
         `;
-    }    
-  }}
+        }
+    }}
 `;
 
 const ChatBoxContent = styled.div`
   display: flex;
   max-width: 80%;
   flex-wrap: nowrap;
-  padding: ${(props) => props.theme.isSelf ? '0 0 0 5px' : '0 5px 0 0'};
+  padding: ${(props) => (props.theme.isSelf ? '0 0 0 5px' : '0 5px 0 0')};
 `;
 
 const Time = styled.div`
@@ -69,20 +68,19 @@ const Avatar = styled.div`
 const Dialog = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: ${(props) => props.theme.isSelf ? '100%' : 'calc(100% - 58px)'};
+  width: ${(props) => (props.theme.isSelf ? '100%' : 'calc(100% - 58px)')};
   ${(props) => {
-      if (props.theme.isSelf) {
-          return css`
+        if (props.theme.isSelf) {
+            return css`
             width: 100%;
             margin-right: 5px;
           `;
-      } else {
-          return css`
+        }
+        return css`
             width: calc(100% - 58px);
             margin-left: 11px;
           `;
-      }
-  }};
+    }};
 `;
 
 const Author = styled.div`
@@ -103,21 +101,20 @@ const Bubble = styled.div`
   line-height: 21px;
   z-index: 1;
   ${(props) => {
-    if (props.theme.isSelf) {
-        return css`
+        if (props.theme.isSelf) {
+            return css`
           padding: 8px 12px 8px 11px;
           margin-right: 5px;
           color: #fff;
           background-color: #f1828d;
         `;
-    } else {
+        }
         return css`
           padding: 8px 11px 8px 12px;
           color: #1a1a1a;
           background-color: #f1f2f3;
         `;
-    } 
-  }};
+    }};
   &::after {
     content: '';
     position: absolute;
@@ -129,14 +126,13 @@ const Bubble = styled.div`
               background-image: url(${tailRight});
               background-position: right top;
             `;
-        } else {
-            return css`
+        }
+        return css`
               left: -6px;
               top: -1px;
               background-image: url(${tailLeft});
               background-position: left top;
             `;
-        }
     }};
     width: 21px;
     height: 25px;
@@ -150,7 +146,6 @@ const ChatBar = styled.div`
   align-items: flex-end;
   justify-content: space-around;
   width: 100%;
-  min-height: 70px;
   background-color: #f1828d;
   z-index: 3;
   padding: 15px 11px 18px 11px;

@@ -1,5 +1,21 @@
 import styled, { css } from 'styled-components';
 import { respondTo } from './_mixin';
+import logo from '../assets/images/i-repair-logo.svg';
+
+const Header = styled.div`
+  display: flex;
+  justify-content: center;
+  height: 34vh;
+  padding: 11vh 0 5vh 0;
+`;
+
+const Logo = styled.div`
+  width: 100%;
+  background-image: url(${logo});
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -34,6 +50,8 @@ const ContainerInner = styled.div`
 `;
 
 export {
+    Header,
+    Logo,
     Wrapper,
     Container,
     ContainerInner

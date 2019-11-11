@@ -1,23 +1,7 @@
 import styled, { css } from 'styled-components';
-import logo from '../../../assets/images/i-repair-logo.svg';
 import icon1 from '../../../assets/images/btn-icon-1.svg';
 import icon2 from '../../../assets/images/btn-icon-2.svg';
 import icon3 from '../../../assets/images/btn-icon-3.svg';
-
-const Header = styled.div`
-  display: flex;
-  justify-content: center;
-  height: 34vh;
-  padding: 11vh 0 5vh 0;
-`;
-
-const Logo = styled.div`
-  width: 100%;
-  background-image: url(${logo});
-  background-position: center center;
-  background-size: contain;
-  background-repeat: no-repeat;
-`;
 
 const Panel = styled.div`
   display: flex;
@@ -89,8 +73,6 @@ const PanelButton = styled.div`
 `;
 
 export {
-    Header,
-    Logo,
     Panel,
     PanelTitle,
     PanelButtonWrap,
