@@ -18,22 +18,33 @@ import {
     Author, Bubble
 } from '../styles';
 import avatar1 from '../../../assets/images/avatar-1.jpg';
+import avatar2 from '../../../assets/images/avatar-2.jpg';
+import ChatBox from "../chat-box";
 
 const Chat = () => (
     <ContainerInner showNav>
         <Navigate title="自信補給站-群組" prev={FUNC_GO_BACK} />
         <ChatContainer>
             <ChatContent>
-                <ChatBoxContainer>
-                    <ChatBoxContent>
-                        <Avatar image={avatar1} />
-                        <Dialog>
-                            <Author>Salazar</Author>
-                            <Bubble>安安你好，你叫什麼名字</Bubble>
-                        </Dialog>
-                    </ChatBoxContent>
-                    <Time>12:00am</Time>
-                </ChatBoxContainer>
+                <ChatBox
+                    isSelf={false}
+                    avatar={avatar1}
+                    author="Salazar"
+                    message="安安你好，你叫什麼名字"
+                    time="12:00am"
+                />
+                <ChatBox
+                    isSelf={false}
+                    avatar={avatar2}
+                    author="花花"
+                    message="你的照片看起來好威啊😊"
+                    time="12:02am"
+                />
+                <ChatBox
+                    isSelf={true}
+                    message="你們好喔，我是小明"
+                    time="12:05am"
+                />
             </ChatContent>
             <ChatBar>
                 <Camera />

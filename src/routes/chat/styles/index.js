@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 import camera from '../../../assets/images/camera.svg';
 import sent from '../../../assets/images/sent.svg';
 import tailLeft from '../../../assets/images/tail-left.svg';
+import tailRight from '../../../assets/images/tail-right.svg';
 
 const ChatContainer = styled.div`
   display: flex;
@@ -23,19 +24,27 @@ const ChatContent = styled.div`
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
+  overflow: auto;
 `;
 
 const ChatBoxContainer = styled.div`
   display: flex;
   width: 100%;
   margin-bottom: 13px;
+  ${(props) => {
+    if (props.theme.isSelf) {
+        return css`
+          flex-direction: row-reverse;
+        `;
+    }    
+  }}
 `;
 
 const ChatBoxContent = styled.div`
   display: flex;
   max-width: 80%;
-  padding-right: 5px;
   flex-wrap: nowrap;
+  padding: ${(props) => props.theme.isSelf ? '0 0 0 5px' : '0 5px 0 0'};
 `;
 
 const Time = styled.div`
@@ -45,7 +54,7 @@ const Time = styled.div`
   color: #f1828d;
   font-size: 11px;
   letter-spacing: .21px;
-  line-height: 20px;
+  font-weight: 300;
 `;
 
 const Avatar = styled.div`
@@ -55,14 +64,25 @@ const Avatar = styled.div`
   ${(props) => (css`background-image: url(${props.image})`)};
   background-repeat: no-repeat;
   background-size: cover;
-  margin-right: 11px;
-  
 `;
 
 const Dialog = styled.div`
   display: flex;
-  width: calc(100% - 58px);
   flex-wrap: wrap;
+  width: ${(props) => props.theme.isSelf ? '100%' : 'calc(100% - 58px)'};
+  ${(props) => {
+      if (props.theme.isSelf) {
+          return css`
+            width: 100%;
+            margin-right: 5px;
+          `;
+      } else {
+          return css`
+            width: calc(100% - 58px);
+            margin-left: 11px;
+          `;
+      }
+  }};
 `;
 
 const Author = styled.div`
@@ -71,29 +91,56 @@ const Author = styled.div`
   line-height: 25px;
   letter-spacing: .25px;
   color: #f1828d;
+  font-weight: 300;
 `;
 
 const Bubble = styled.div`
   position: relative;
   width: 100%;
   min-height: 37px;
-  padding: 8px 11px 8px 12px;
   border-radius: 18px;
-  color: #1a1a1a;
   font-size: 16px;
   line-height: 21px;
-  background-color: #f1f2f3;
   z-index: 1;
+  ${(props) => {
+    if (props.theme.isSelf) {
+        return css`
+          padding: 8px 12px 8px 11px;
+          margin-right: 5px;
+          color: #fff;
+          background-color: #f1828d;
+        `;
+    } else {
+        return css`
+          padding: 8px 11px 8px 12px;
+          color: #1a1a1a;
+          background-color: #f1f2f3;
+        `;
+    } 
+  }};
   &::after {
     content: '';
     position: absolute;
-    left: -6px;
-    top: -1px;
+    ${(props) => {
+        if (props.theme.isSelf) {
+            return css`
+              right: -7px;
+              top: -8px;
+              background-image: url(${tailRight});
+              background-position: right top;
+            `;
+        } else {
+            return css`
+              left: -6px;
+              top: -1px;
+              background-image: url(${tailLeft});
+              background-position: left top;
+            `;
+        }
+    }};
     width: 21px;
     height: 25px;
-    background-image: url(${tailLeft});
     background-repeat: no-repeat;
-    background-position: left top;
     z-index: -1;
   }
 `;
