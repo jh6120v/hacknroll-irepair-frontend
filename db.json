@@ -1,0 +1,18 @@
+{
+  message: [
+    {
+      id: "A001",
+      author: "Salazar",
+      avatar: "avatar-1.png",
+      message: "安安你好，你叫什麼名字",
+      time: "12:00am"
+    },
+    {
+      id: "A002",
+      author: "花花",
+      avatar: "avatar-2.png",
+      message: "你的照片看起來好威啊😊",
+      time: "12:02am"
+    }
+  ]
+}
