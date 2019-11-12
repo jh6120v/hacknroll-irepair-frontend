@@ -1,5 +1,5 @@
 import React from 'react';
-import { Author, Avatar, Bubble, ChatBoxContainer, ChatBoxContent, Dialog, Time } from "./styles";
+import { Author, Avatar, Bubble, ChatBoxContainer, ChatBoxContent, Dialog, Time } from "../styles";
 import { ThemeProvider } from "styled-components";
 
 const ChatBox = ({ isSelf, avatar, author, message, time }) => {
@@ -14,11 +14,11 @@ const ChatBox = ({ isSelf, avatar, author, message, time }) => {
             <ChatBoxContainer>
                 <ChatBoxContent>
                     {
-                        isSelf ? null : (<Avatar image={avatar} />)
+                        isSelf ? null : <Avatar image={avatar} />
                     }
                     <Dialog>
                         {
-                            isSelf ? null : (<Author>{author}</Author>)
+                            isSelf ? null : <Author>{author}</Author>
                         }
                         <Bubble>{message}</Bubble>
                     </Dialog>

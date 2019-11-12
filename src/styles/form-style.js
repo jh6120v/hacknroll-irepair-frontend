@@ -29,6 +29,7 @@ const InputText = styled.input`
   letter-spacing: .3px;
   color: #f1828d;
   text-align: center;
+  border-width: 0;
   &::placeholder {
     color: #f1828d;
     text-align: center;

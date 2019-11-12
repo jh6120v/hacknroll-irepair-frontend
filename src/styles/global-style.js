@@ -2,9 +2,9 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   html {
-    padding-top: env(safe-area-inset-top);
+    //padding-top: env(safe-area-inset-top);
     padding-right: env(safe-area-inset-right);
-    padding-bottom: env(safe-area-inset-bottom);
+    //padding-bottom: env(safe-area-inset-bottom);
     padding-left: env(safe-area-inset-left);
   }
   html, body {
@@ -29,6 +29,12 @@ const GlobalStyle = createGlobalStyle`
   a {
     text-decoration: none;
     cursor: pointer;
+  }
+  :root {
+    --sat: env(safe-area-inset-top);
+    --sar: env(safe-area-inset-right);
+    --sab: env(safe-area-inset-bottom);
+    --sal: env(safe-area-inset-left);
   }
 `;
 

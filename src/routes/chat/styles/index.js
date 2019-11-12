@@ -19,17 +19,31 @@ const ChatContainer = styled.div`
 `;
 
 const ChatContent = styled.div`
+  height: 77vh;
   padding: 29px 15px 0 15px;
   flex: 1 1 auto;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   overflow: auto;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  align-content: flex-start;
+`;
+
+const ChatBody = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 const ChatBoxContainer = styled.div`
   display: flex;
   width: 100%;
   margin-bottom: 13px;
+  align-self: flex-start;
   ${(props) => {
         if (props.theme.isSelf) {
             return css`
@@ -72,14 +86,15 @@ const Dialog = styled.div`
   ${(props) => {
         if (props.theme.isSelf) {
             return css`
-            width: 100%;
-            margin-right: 5px;
-          `;
+              width: 100%;
+              margin-right: 5px;
+            `;
         }
+        
         return css`
-            width: calc(100% - 58px);
-            margin-left: 11px;
-          `;
+          width: calc(100% - 58px);
+          margin-left: 11px;
+        `;
     }};
 `;
 
@@ -100,6 +115,7 @@ const Bubble = styled.div`
   font-size: 16px;
   line-height: 21px;
   z-index: 1;
+  white-space: pre-line;
   ${(props) => {
         if (props.theme.isSelf) {
             return css`
@@ -143,12 +159,19 @@ const Bubble = styled.div`
 
 const ChatBar = styled.div`
   display: flex;
-  align-items: flex-end;
-  justify-content: space-around;
   width: 100%;
   background-color: #f1828d;
   z-index: 3;
-  padding: 15px 11px 18px 11px;
+  padding: 0 11px;  
+`;
+
+const ChatBarInner = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: flex-end;
+  justify-content: space-around;
+  margin-top: 15px;
+  margin-bottom: ${(props) => props.toggleKeyboard || props.safeArea.sab === '0px' ? '18px' : 'env(safe-area-inset-bottom)'};
 `;
 
 const Camera = styled.div`
@@ -194,12 +217,14 @@ export {
     ChatContent,
     ChatBoxContainer,
     ChatBoxContent,
+    ChatBody,
     Time,
     Avatar,
     Dialog,
     Author,
     Bubble,
     ChatBar,
+    ChatBarInner,
     Camera,
     TypingBar,
     Sent

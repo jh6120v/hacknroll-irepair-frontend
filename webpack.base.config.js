@@ -58,7 +58,8 @@ module.exports = {
             { from: './manifest.json', to: './manifest.json' },
             { from: './favicon.ico', to: './favicon.ico' },
             { from: 'src/assets/icons', to: './assets/icons' },
-            { from: 'src/assets/splash', to: './assets/splash' }
+            { from: 'src/assets/splash', to: './assets/splash' },
+            { from: 'src/assets/avatar', to: './assets/avatar' }
         ])
     ],
     resolve: {

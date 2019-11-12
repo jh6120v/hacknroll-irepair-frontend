@@ -1,7 +1,7 @@
-import React, { useRef, useCallback, useEffect } from 'react';
+import React, { useRef, useCallback, useEffect, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import Navigate from '../../../components/navigate';
-import { FUNC_GO_BACK } from '../../../constants';
+import { FAKE_DATA, FUNC_GO_BACK } from '../../../constants';
 import { ContainerInner } from '../../../styles/layout-style';
 import {
     Camera,
@@ -9,22 +9,36 @@ import {
     ChatContainer,
     ChatContent,
     TypingBar,
-    Sent
+    Sent, ChatBarInner
 } from '../styles';
-import avatar1 from '../../../assets/images/avatar-1.png';
-import avatar2 from '../../../assets/images/avatar-2.png';
-import avatar3 from '../../../assets/images/avatar-3.png';
-import avatar4 from '../../../assets/images/avatar-4.png';
-import avatar5 from '../../../assets/images/avatar-5.png';
-import ChatBox from '../chat-box';
-import { useModel, useTimer } from '../../../commons/hooks';
+import ChatBox from '../components/chat-box';
+import { useMockData, useModel, useTimer } from '../../../commons/hooks';
 import Model from '../../../components/model';
 import { history } from '../../../store';
+import { useDispatch, useSelector } from "react-redux";
+import { messageFetch, messagePush } from "../modules/chat-message";
+import moment from "moment";
 
 const Chat = () => {
+    const dispatch = useDispatch();
+    const { message } = useSelector((state) => state.chatMessage);
+    const [safeArea, setSafeArea] = useState({});
+    const [toggleKeyboard, setToggleKeyboard] = useState(false);
+
+    const scrollBottom = useCallback(() => {
+        console.log('scroll');
+
+        setTimeout(() => {
+            chatNode.current.scrollTop = chatNode.current.scrollHeight;
+        }, 0);
+    }, []);
     const linkTo = useCallback((url) => history.push(url), []);
     const chatNode = useRef();
     const inputNode = useRef();
+
+    useEffect(() => {
+        dispatch(messageFetch());
+    }, []);
 
     const {
         ModelBox, isShown, showModal, hideModal
@@ -36,85 +50,92 @@ const Chat = () => {
         hideModal();
     }, []), '忍痛離開');
 
-    const timer = useTimer(10, 'backward', () => {
+    const timer = useTimer(30, 'backward', () => {
         showModal();
         inputNode.current.disabled = true;
     });
 
     useEffect(() => {
         timer.setTimerState('started');
+        setSafeArea({
+            sat: getComputedStyle(document.documentElement).getPropertyValue("--sat"),
+            sar: getComputedStyle(document.documentElement).getPropertyValue("--sar"),
+            sab: getComputedStyle(document.documentElement).getPropertyValue("--sab"),
+            sal: getComputedStyle(document.documentElement).getPropertyValue("--sal")
+        });
 
         return () => {
             timer.setTimerState('reset');
         };
-    }, [timer]);
+    }, []);
+
+    const sent = useCallback(() => {
+        console.log('send');
+
+        dispatch(messagePush({
+            singleMessage: {
+                id: 'A000',
+                author: 'James',
+                avatar: 'avatar-1.png',
+                message: inputNode.current.value,
+                time: +moment()
+            }
+        }));
+
+        inputNode.current.value = '';
+        inputNode.current.focus();
+
+        scrollBottom();
+
+        if (mockState === 'yet') {
+            setMockState('done');
+        }
+    }, []);
+
+    const { mockState, setMockState } = useMockData(FAKE_DATA, scrollBottom);
 
     return (
-        <ContainerInner showNav>
+        <ContainerInner style={{}}>
             <Navigate title="自信補給站-群組" prev={FUNC_GO_BACK} />
             <ChatContainer>
                 <ChatContent ref={chatNode}>
-                    <ChatBox
-                        isSelf={false}
-                        avatar={avatar1}
-                        author="Salazar"
-                        message="安安你好，你叫什麼名字"
-                        time="12:00am"
-                    />
-                    <ChatBox
-                        isSelf={false}
-                        avatar={avatar2}
-                        author="花花"
-                        message="你的照片看起來好威啊😊"
-                        time="12:02am"
-                    />
-                    <ChatBox
-                        isSelf
-                        message="你們好喔，我是小明"
-                        time="12:05am"
-                    />
-                    <ChatBox
-                        isSelf={false}
-                        avatar={avatar3}
-                        author="航海王"
-                        message="你好啊小帥哥，連名字都可以這麼威啊～"
-                        time="12:05am"
-                    />
-                    <ChatBox
-                        isSelf={false}
-                        avatar={avatar4}
-                        author="烏魯魯"
-                        message="就是啊！小明，你一定有很多朋友吧！👏👏"
-                        time="12:06am"
-                    />
-                    <ChatBox
-                        isSelf={false}
-                        avatar={avatar5}
-                        author="Salazar"
-                        message="連我都忍不住想要見你了～😊"
-                        time="12:07am"
-                    />
-                    <ChatBox
-                        isSelf
-                        message="我充滿正面能量了💪"
-                        time="12:10am"
-                    />
+                    {
+                        message ? message.map((val) => (
+                            <ChatBox
+                                key={val.id + val.time}
+                                isSelf={val.id === 'A000'}
+                                avatar={`/assets/avatar/${val.avatar}`}
+                                author={val.author}
+                                message={val.message}
+                                time={moment(val.time).format('hh:mma')}
+                            />
+                        )) : null
+                    }
                 </ChatContent>
                 <ChatBar>
-                    <Camera />
-                    <TypingBar>
-                        <TextareaAutosize
-                            inputRef={inputNode}
-                            minRows={1}
-                            maxRows={5}
-                            placeholder="say something..."
-                            style={{ flex: '1 1 auto' }}
-                            onHeightChange={() => {
-                                chatNode.current.scrollTop = chatNode.current.clientHeight;
-                            }}
-                        />
-                    </TypingBar>
-                    <Sent />
+                    <ChatBarInner safeArea={safeArea} toggleKeyboard={toggleKeyboard}>
+                        <Camera />
+                        <TypingBar>
+                            <TextareaAutosize
+                                inputRef={inputNode}
+                                minRows={1}
+                                maxRows={5}
+                                placeholder="say something..."
+                                style={{ flex: '1 1 auto', borderWidth: 0, borderRadius: '17.5px' }}
+                                onHeightChange={scrollBottom}
+                                onFocus={() => {
+                                    setToggleKeyboard(true);
+                                    scrollBottom();
+                                }}
+                                onBlur={() => {
+                                    setToggleKeyboard(false);
+                                    scrollBottom();
+                                }}
+                            />
+                        </TypingBar>
+                        <Sent onClick={sent} />
+                    </ChatBarInner>
+
                 </ChatBar>
             </ChatContainer>
             <Model isShow={isShown}>

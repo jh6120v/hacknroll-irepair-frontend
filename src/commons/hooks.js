@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import {
     useObservable,
     pluckFirst,
-    useObservableState
+    useObservableState, useSubscription
 } from 'observable-hooks';
 import {
     map,
@@ -13,12 +13,14 @@ import {
     withLatestFrom,
     scan,
     tap,
-    takeWhile
+    takeWhile, timeInterval, startWith, take
 } from 'rxjs/operators';
-import { of, animationFrameScheduler } from 'rxjs';
+import { of, animationFrameScheduler, interval } from 'rxjs';
 import {
     Button, ModelContent, ModelFooter, ModelShadow, ModelTitle, ModelWrap
 } from '../styles/model-style';
+import { useDispatch } from "react-redux";
+import { messagePush } from "../routes/chat/modules/chat-message";
 
 const useModel = (title, message = null, confirm = null, confirmText = 'Confirm', cancel = null, cancelText = 'Cancel') => {
     const [isShown, setShown] = useState(false);
@@ -48,6 +50,37 @@ const useModel = (title, message = null, confirm = null, confirmText = 'Confirm'
         isShown,
         showModal,
         hideModal
+    };
+};
+
+const useMockData = (mockData, scrollBottom) => {
+    const dispatch = useDispatch();
+    const [mockState, setMockState] = useState('yet');
+
+    const mockState$ = useObservable(pluckFirst, [mockState]);
+    const timer$ = useObservable(() => interval(1000).pipe(
+        take(4)
+    ));
+
+    const countDown$ = useObservable(() => mockState$.pipe(
+        map(state => state === 'yet'),
+        distinctUntilChanged(),
+        switchMap(isYet => isYet ? of(0) : timer$.pipe(
+            tap(x => {
+                dispatch(messagePush({
+                    singleMessage: mockData[x]
+                }));
+
+                scrollBottom();
+            })
+        ))
+    ));
+
+    useSubscription(countDown$);
+
+    return {
+        mockState,
+        setMockState
     };
 };
 
@@ -100,5 +133,6 @@ const useTimer = (initialTime = 0, direction = 'forward', onSuccess) => {
 
 export {
     useModel,
-    useTimer
+    useTimer,
+    useMockData
 };

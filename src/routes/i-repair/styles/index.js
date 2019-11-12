@@ -8,6 +8,7 @@ const Panel = styled.div`
   flex-wrap: wrap;
   align-content: flex-start;
   height: 66vh;
+  padding-bottom: env(safe-area-inset-bottom);
   background-color: #fff;
   box-shadow: 0 5px 18px 0 rgba(200,75,98,1);
   border-top-left-radius: 25px;

@@ -1,7 +1,7 @@
 import axios from 'axios';
 // import { loadProgressBar } from 'axios-progress-bar';
 
-export const getSequenceListDataApi = () => {
+export const getChatMessage = () => {
     const instance = axios.create();
 
     // loadProgressBar({
@@ -9,7 +9,7 @@ export const getSequenceListDataApi = () => {
     // }, instance);
 
     return instance({
-        url: 'https://my-json-server.typicode.com/jh6120v/scrum-poker/sequence',
+        url: 'https://my-json-server.typicode.com/jh6120v/json-server-online-test/message',
         method: 'get',
         responseType: 'json',
         headers: {

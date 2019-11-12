@@ -3,9 +3,9 @@ import styled from 'styled-components';
 const Nav = styled.div`
   width: 100%;
   height: calc(44px + env(safe-area-inset-top));
-  position: absolute;
-  left: 0;
-  top: 0;
+  //position: absolute;
+  //left: 0;
+  //top: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
