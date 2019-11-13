@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
     useObservable,
     pluckFirst,
@@ -84,6 +84,76 @@ const useMockData = (mockData, scrollBottom) => {
     };
 };
 
+const useWebSocket = (host, { onOpen, onMessage, onClose, onError, reconnectInterval }) => {
+    let connectInterval;
+    let timeout = reconnectInterval || 250;
+
+    const [ws, setWs] = useState(null);
+
+    useEffect(() => {
+        connect();
+    }, []);
+
+    const connect = () => {
+        // wss://dxl9ub4w15.execute-api.us-west-2.amazonaws.com/stage
+        const wss = new WebSocket(host);
+
+        wss.onopen = (e) => {
+            console.log("on open.");
+
+            setWs(wss);
+
+            onOpen(e);
+
+            setTimeout(() => {
+                wss.send('123');
+            }, 3000);
+        };
+
+        wss.onmessage = (e) => {
+            let received_msg = JSON.parse(e.data);
+
+            onMessage(received_msg, e);
+        };
+
+        wss.onclose = (e) => {
+            onClose(e);
+
+            console.log(
+                `Socket is closed. Reconnect will be attempted in ${Math.min(
+                    10000 / 1000,
+                    (timeout + timeout) / 1000
+                )} second.`,
+                e.reason
+            );
+
+            timeout = timeout + timeout;
+            connectInterval = setTimeout(check, Math.min(10000, timeout));
+        };
+
+        wss.onerror = err => {
+            onError(err);
+
+            console.error(
+                "Socket encountered error: ",
+                err.message,
+                "Closing socket"
+            );
+
+            wss.close();
+        };
+
+        const check = () => {
+            // check if websocket instance is closed, if so call `connect` function.
+            if (!wss || wss.readyState === WebSocket.CLOSED) {
+                connect();
+            }
+        };
+    };
+
+    return ws;
+};
+
 const useTimer = (initialTime = 0, direction = 'forward', onSuccess) => {
     const [timerState, setTimerState] = useState('reset');
 
@@ -92,8 +162,8 @@ const useTimer = (initialTime = 0, direction = 'forward', onSuccess) => {
         map((state) => state === 'reset'),
         distinctUntilChanged(),
         switchMap((isReset) => (isReset ? of(initialTime)
-        // high accuracy timing
-        // repetitively calculate the diff
+            // high accuracy timing
+            // repetitively calculate the diff
             : of(animationFrameScheduler.now(), animationFrameScheduler).pipe(
                 repeat(),
                 // extract seconds
@@ -101,14 +171,14 @@ const useTimer = (initialTime = 0, direction = 'forward', onSuccess) => {
                 distinctUntilChanged(),
                 withLatestFrom(timerState$),
                 filter(([, state]) => state === 'started'),
-                tap(([val, ]) => {
+                tap(([val,]) => {
                     // console.log(`tab::${val}`);
 
                     if (direction === 'backward' && val > initialTime) {
                         onSuccess();
                     }
                 }),
-                takeWhile(([val, ]) => direction === 'forward' || (direction === 'backward' && val <= initialTime)),
+                takeWhile(([val,]) => direction === 'forward' || (direction === 'backward' && val <= initialTime)),
                 scan((timeLeft, [val,]) => {
                     // count how many second left
 
@@ -134,5 +204,6 @@ const useTimer = (initialTime = 0, direction = 'forward', onSuccess) => {
 export {
     useModel,
     useTimer,
-    useMockData
+    useMockData,
+    useWebSocket
 };

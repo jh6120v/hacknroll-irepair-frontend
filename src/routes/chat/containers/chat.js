@@ -1,5 +1,5 @@
 import React, {
- useRef, useCallback, useEffect, useState
+    useRef, useCallback, useEffect, useState
 } from 'react';
 import Resizer from 'react-image-file-resizer';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -17,7 +17,7 @@ import {
     Sent, ChatBarInner
 } from '../styles';
 import ChatBox from '../components/chat-box';
-import { useMockData, useModel, useTimer } from '../../../commons/hooks';
+import { useMockData, useModel, useTimer, useWebSocket } from '../../../commons/hooks';
 import Model from '../../../components/model';
 import { history } from '../../../store';
 import { messageFetch, messagePush, messageReset, messageSet } from '../modules/chat-message';
@@ -79,6 +79,14 @@ const Chat = () => {
 
     const { mockState, setMockState } = useMockData(FAKE_DATA, scrollBottom);
 
+    const ws = useWebSocket('wss://dxl9ub4w15.execute-api.us-west-2.amazonaws.com/stage', {
+        onOpen: (e) => console.log(e),
+        onMessage: (received_msg, e) => console.log(received_msg),
+        onClose: (e) => console.log(e),
+        onError: (e) => console.log(e),
+        reconnectInterval: 250
+    });
+
     const sent = useCallback(() => {
         console.log('send');
 
@@ -88,7 +96,7 @@ const Chat = () => {
             return false;
         }
 
-        dispatch(messagePush({
+        const mmm = {
             singleMessage: {
                 id: 'A000',
                 author: 'James',
@@ -97,15 +105,19 @@ const Chat = () => {
                 images: null,
                 time: +moment()
             }
-        }));
+        };
+
+        dispatch(messagePush(mmm));
+
+        ws.send(JSON.stringify(mmm));
 
         inputNode.current.value = '';
 
         scrollBottom();
 
-        if (mockState === 'yet') {
-            setMockState('done');
-        }
+        // if (mockState === 'yet') {
+        //     setMockState('done');
+        // }
     }, []);
 
     const fileChangedHandler = (event) => {
