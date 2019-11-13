@@ -1,8 +1,12 @@
 import React from 'react';
-import { Author, Avatar, Bubble, ChatBoxContainer, ChatBoxContent, Dialog, Time } from "../styles";
-import { ThemeProvider } from "styled-components";
+import { ThemeProvider } from 'styled-components';
+import {
+    Author, Avatar, Bubble, ChatBoxContainer, ChatBoxContent, Dialog, Img, Time
+} from '../styles';
 
-const ChatBox = ({ isSelf, avatar, author, message, time }) => {
+const ChatBox = ({
+    isSelf, avatar, author, message, images, time
+}) => {
     const theme = isSelf ? {
         isSelf: true
     } : {
@@ -20,7 +24,13 @@ const ChatBox = ({ isSelf, avatar, author, message, time }) => {
                         {
                             isSelf ? null : <Author>{author}</Author>
                         }
-                        <Bubble>{message}</Bubble>
+                        {
+                            images ? (
+                                <Img>
+                                    <img src={images} />
+                                </Img>
+                            ) : <Bubble>{message}</Bubble>
+                        }
                     </Dialog>
                 </ChatBoxContent>
                 <Time>{time}</Time>

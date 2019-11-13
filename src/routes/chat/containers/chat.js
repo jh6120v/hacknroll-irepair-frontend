@@ -1,5 +1,10 @@
-import React, { useRef, useCallback, useEffect, useState } from 'react';
+import React, {
+ useRef, useCallback, useEffect, useState
+} from 'react';
+import Resizer from 'react-image-file-resizer';
 import TextareaAutosize from 'react-textarea-autosize';
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import Navigate from '../../../components/navigate';
 import { FAKE_DATA, FUNC_GO_BACK } from '../../../constants';
 import { ContainerInner } from '../../../styles/layout-style';
@@ -15,15 +20,16 @@ import ChatBox from '../components/chat-box';
 import { useMockData, useModel, useTimer } from '../../../commons/hooks';
 import Model from '../../../components/model';
 import { history } from '../../../store';
-import { useDispatch, useSelector } from "react-redux";
-import { messageFetch, messagePush } from "../modules/chat-message";
-import moment from "moment";
+import { messageFetch, messagePush, messageReset, messageSet } from '../modules/chat-message';
 
 const Chat = () => {
     const dispatch = useDispatch();
     const { message } = useSelector((state) => state.chatMessage);
     const [safeArea, setSafeArea] = useState({});
     const [toggleKeyboard, setToggleKeyboard] = useState(false);
+    const linkTo = useCallback((url) => history.push(url), []);
+    const chatNode = useRef();
+    const inputNode = useRef();
 
     const scrollBottom = useCallback(() => {
         console.log('scroll');
@@ -32,12 +38,13 @@ const Chat = () => {
             chatNode.current.scrollTop = chatNode.current.scrollHeight;
         }, 0);
     }, []);
-    const linkTo = useCallback((url) => history.push(url), []);
-    const chatNode = useRef();
-    const inputNode = useRef();
 
     useEffect(() => {
         dispatch(messageFetch());
+
+        return () => {
+            dispatch(messageReset());
+        };
     }, []);
 
     const {
@@ -57,11 +64,12 @@ const Chat = () => {
 
     useEffect(() => {
         timer.setTimerState('started');
+
         setSafeArea({
-            sat: getComputedStyle(document.documentElement).getPropertyValue("--sat"),
-            sar: getComputedStyle(document.documentElement).getPropertyValue("--sar"),
-            sab: getComputedStyle(document.documentElement).getPropertyValue("--sab"),
-            sal: getComputedStyle(document.documentElement).getPropertyValue("--sal")
+            sat: getComputedStyle(document.documentElement).getPropertyValue('--sat'),
+            sar: getComputedStyle(document.documentElement).getPropertyValue('--sar'),
+            sab: getComputedStyle(document.documentElement).getPropertyValue('--sab'),
+            sal: getComputedStyle(document.documentElement).getPropertyValue('--sal')
         });
 
         return () => {
@@ -69,8 +77,16 @@ const Chat = () => {
         };
     }, []);
 
+    const { mockState, setMockState } = useMockData(FAKE_DATA, scrollBottom);
+
     const sent = useCallback(() => {
         console.log('send');
+
+        inputNode.current.focus();
+
+        if (inputNode.current.value === '') {
+            return false;
+        }
 
         dispatch(messagePush({
             singleMessage: {
@@ -78,12 +94,12 @@ const Chat = () => {
                 author: 'James',
                 avatar: 'avatar-1.png',
                 message: inputNode.current.value,
+                images: null,
                 time: +moment()
             }
         }));
 
         inputNode.current.value = '';
-        inputNode.current.focus();
 
         scrollBottom();
 
@@ -92,7 +108,38 @@ const Chat = () => {
         }
     }, []);
 
-    const { mockState, setMockState } = useMockData(FAKE_DATA, scrollBottom);
+    const fileChangedHandler = (event) => {
+        let fileInput = false;
+        if (event.target.files[0]) {
+            fileInput = true;
+        }
+
+        if (fileInput) {
+            Resizer.imageFileResizer(
+                event.target.files[0],
+                300,
+                300,
+                'JPEG',
+                100,
+                0,
+                (uri) => {
+                    dispatch(messagePush({
+                        singleMessage: {
+                            id: 'A000',
+                            author: 'James',
+                            avatar: 'avatar-1.png',
+                            message: null,
+                            images: uri,
+                            time: +moment()
+                        }
+                    }));
+
+                    scrollBottom();
+                },
+                'base64'
+            );
+        }
+    };
 
     return (
         <ContainerInner style={{}}>
@@ -107,6 +154,7 @@ const Chat = () => {
                                 avatar={`/assets/avatar/${val.avatar}`}
                                 author={val.author}
                                 message={val.message}
+                                images={val.images}
                                 time={moment(val.time).format('hh:mma')}
                             />
                         )) : null
@@ -114,7 +162,9 @@ const Chat = () => {
                 </ChatContent>
                 <ChatBar>
                     <ChatBarInner safeArea={safeArea} toggleKeyboard={toggleKeyboard}>
-                        <Camera />
+                        <Camera>
+                            <input type="file" onChange={fileChangedHandler} />
+                        </Camera>
                         <TypingBar>
                             <TextareaAutosize
                                 inputRef={inputNode}
@@ -135,7 +185,6 @@ const Chat = () => {
                         </TypingBar>
                         <Sent onClick={sent} />
                     </ChatBarInner>
-
                 </ChatBar>
             </ChatContainer>
             <Model isShow={isShown}>

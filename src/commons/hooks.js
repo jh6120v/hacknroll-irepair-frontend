@@ -13,14 +13,14 @@ import {
     withLatestFrom,
     scan,
     tap,
-    takeWhile, timeInterval, startWith, take
+    takeWhile, take
 } from 'rxjs/operators';
 import { of, animationFrameScheduler, interval } from 'rxjs';
+import { useDispatch } from 'react-redux';
 import {
     Button, ModelContent, ModelFooter, ModelShadow, ModelTitle, ModelWrap
 } from '../styles/model-style';
-import { useDispatch } from "react-redux";
-import { messagePush } from "../routes/chat/modules/chat-message";
+import { messagePush } from '../routes/chat/modules/chat-message';
 
 const useModel = (title, message = null, confirm = null, confirmText = 'Confirm', cancel = null, cancelText = 'Cancel') => {
     const [isShown, setShown] = useState(false);
@@ -63,17 +63,17 @@ const useMockData = (mockData, scrollBottom) => {
     ));
 
     const countDown$ = useObservable(() => mockState$.pipe(
-        map(state => state === 'yet'),
+        map((state) => state === 'yet'),
         distinctUntilChanged(),
-        switchMap(isYet => isYet ? of(0) : timer$.pipe(
-            tap(x => {
+        switchMap((isYet) => (isYet ? of(0) : timer$.pipe(
+            tap((x) => {
                 dispatch(messagePush({
                     singleMessage: mockData[x]
                 }));
 
                 scrollBottom();
             })
-        ))
+        )))
     ));
 
     useSubscription(countDown$);

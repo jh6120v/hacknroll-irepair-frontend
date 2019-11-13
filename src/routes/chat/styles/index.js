@@ -13,9 +13,10 @@ const ChatContainer = styled.div`
   box-shadow: 0 5px 18px 0 rgba(200,75,98,1);
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
-  margin-top: 13px;
-  height: calc(100vh - 44px - 13px - env(safe-area-inset-top));
+  //margin-top: 13px;
+  height: calc(100vh - 44px - env(safe-area-inset-top));
   overflow: hidden;
+  overflow-scrolling: touch;
 `;
 
 const ChatContent = styled.div`
@@ -90,7 +91,7 @@ const Dialog = styled.div`
               margin-right: 5px;
             `;
         }
-        
+
         return css`
           width: calc(100% - 58px);
           margin-left: 11px;
@@ -157,6 +158,14 @@ const Bubble = styled.div`
   }
 `;
 
+const Img = styled.div`
+  width: 100%;
+  & > img {
+    max-width: 100%;
+    height: auto;
+  }
+`;
+
 const ChatBar = styled.div`
   display: flex;
   width: 100%;
@@ -170,17 +179,24 @@ const ChatBarInner = styled.div`
   width: 100%;
   align-items: flex-end;
   justify-content: space-around;
+  align-items: center;
   margin-top: 15px;
   margin-bottom: ${(props) => props.toggleKeyboard || props.safeArea.sab === '0px' ? '18px' : 'env(safe-area-inset-bottom)'};
 `;
 
 const Camera = styled.div`
+  flex: 1 1 auto;
   width: 37px;
   height: 37px;
   background-image: url(${camera});
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 31px 31px;
+  overflow: hidden;
+  & > input {
+    opacity: 0;
+    height: 100%;
+  }
 `;
 
 const TypingBar = styled.div`
@@ -204,6 +220,7 @@ const TypingBar = styled.div`
 `;
 
 const Sent = styled.div`
+  flex: 1 1 auto;
   width: 37px;
   height: 37px;
   background-image: url(${sent});
@@ -223,6 +240,7 @@ export {
     Dialog,
     Author,
     Bubble,
+    Img,
     ChatBar,
     ChatBarInner,
     Camera,

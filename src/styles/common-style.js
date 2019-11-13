@@ -33,7 +33,7 @@ const BallScaleMultiple = styled.div`
 `;
 
 const BallScaleMultipleInner = styled.div`
-  background-color: #fff;
+  background-color: #ff6f89;
   border-radius: 100%;
   animation-fill-mode: both;
   position: absolute;
@@ -63,10 +63,10 @@ const LazyLoad = styled.div`
   align-items: center;
   color: #FFF;
   background: #ff6f89;
-    background: -moz-linear-gradient(-45deg,  #ff6f89 0%, #ff9478 100%);
-    background: -webkit-linear-gradient(-45deg,  #ff6f89 0%,#ff9478 100%);
-    background: linear-gradient(135deg,  #ff6f89 0%,#ff9478 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff6f89', endColorstr='#ff9478',GradientType=1 );
+  background: -moz-linear-gradient(-45deg,  #ff6f89 0%, #ff9478 100%);
+  background: -webkit-linear-gradient(-45deg,  #ff6f89 0%,#ff9478 100%);
+  background: linear-gradient(135deg,  #ff6f89 0%,#ff9478 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff6f89', endColorstr='#ff9478',GradientType=1 );
 `;
 
 export {
