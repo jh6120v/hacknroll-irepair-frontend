@@ -46,7 +46,7 @@ const PanelButton = styled.div`
   margin-bottom: 20px;
   color: #fff;
   text-align: center;
-  font-weight: 300;
+  font-weight: 500;
   background-color: ${(props) => (props.bgColor ? props.bgColor : '#f1828d')};
   ${(props) => {
         if (props.icon) {
@@ -73,9 +73,19 @@ const PanelButton = styled.div`
     }}
 `;
 
+const TabBar = styled.div`
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 83px;
+  background-color: #fff;
+`;
+
 export {
     Panel,
     PanelTitle,
     PanelButtonWrap,
-    PanelButton
+    PanelButton,
+    TabBar
 };

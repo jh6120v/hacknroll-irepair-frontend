@@ -8,7 +8,9 @@ const messageSet = actionCreator('MESSAGE_SET');
 const messagePush = actionCreator('MESSAGE_PUSH');
 const messageReset = actionCreator('MESSAGE_RESET');
 
-export { messageFetch, messageSet, messagePush, messageReset };
+export {
+    messageFetch, messageSet, messagePush, messageReset
+};
 
 
 // Reducers
@@ -23,12 +25,12 @@ const initialState = {
             time: 1573568899283
         },
         {
-            "id": "A001",
-            "author": "iRepair",
-            "avatar": "avatar-1.png",
-            "message": "安安你好，歡迎來到自信補給站，在這裡你將會獲得無比的自信心，趕緊跟大家介紹一下自己吧！",
-            "images": null,
-            "time": 1573568899285
+            id: 'A001',
+            author: 'iRepair',
+            avatar: 'avatar-1.png',
+            message: '安安你好，歡迎來到自信補給站，在這裡你將會獲得無比的自信心，趕緊跟大家介紹一下自己吧！',
+            images: null,
+            time: 1573568899285
         }
     ]
 };

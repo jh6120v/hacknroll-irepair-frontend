@@ -14,7 +14,7 @@ const ModePanel = ({ isVisible }) => {
             animationIn="slideInUp"
             animationOut="slideOutDown"
             isVisible={isVisible}
-            animationInDuration={800}
+            animationInDuration={300}
             style={{
                 position: 'absolute', left: 0, bottom: 0, width: '100%', zIndex: 2
             }}

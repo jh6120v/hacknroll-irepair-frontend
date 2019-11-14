@@ -11,14 +11,26 @@ import {
     ValidateErrorMsg
 } from '../../../styles/form-style';
 import { history } from '../../../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { personalSettingSet } from '../../../modules/personal-setting';
 
 const Register = () => {
+    const dispatch = useDispatch();
+    const { id, avatar } = useSelector((state) => state.personal);
     const linkTo = useCallback((url) => history.push(url), []);
     const {
         register, handleSubmit, errors
     } = useForm();
 
-    const onSubmit = () => {
+    const onSubmit = (data) => {
+        console.log(data);
+
+        dispatch(personalSettingSet({
+            id,
+            author: data.name,
+            avatar
+        }));
+
         linkTo('pay');
     };
 
@@ -34,11 +46,11 @@ const Register = () => {
                         {errors.name && <ValidateErrorMsg>Name is required</ValidateErrorMsg>}
                     </InputGroup>
                     <InputGroup>
-                        <InputText name="mobile" placeholder="mobile" ref={register({ required: true })} />
+                        <InputText type="tel" name="mobile" maxLength="10" placeholder="mobile" ref={register({ required: true })} />
                         {errors.mobile && <ValidateErrorMsg>Mobile is required</ValidateErrorMsg>}
                     </InputGroup>
                     <InputGroup>
-                        <InputText name="email" placeholder="e-mail" ref={register({ required: true })} />
+                        <InputText type="email" name="email" placeholder="e-mail" ref={register({ required: true })} />
                         {errors.email && <ValidateErrorMsg>Email is required</ValidateErrorMsg>}
                     </InputGroup>
                 </FormGroup>

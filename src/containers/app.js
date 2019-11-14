@@ -9,11 +9,13 @@ import Spinner from '../components/spinner';
 import { injectReducer } from '../store/reducers';
 import spinnerReducer from '../modules/spinner';
 import modelReducer from '../modules/model';
+import personalSettingReducer from '../modules/personal-setting';
 import { Container, Wrapper } from '../styles/layout-style';
 
 injectReducer(history, store, [
     { key: 'spinner', reducer: spinnerReducer },
-    { key: 'model', reducer: modelReducer }
+    { key: 'model', reducer: modelReducer },
+    { key: 'personal', reducer: personalSettingReducer}
 ]);
 
 const App = () => {
@@ -22,8 +24,7 @@ const App = () => {
 
     useEffect(() => {
         // 為了讓 :active 在 ios 生效
-        document.addEventListener('touchstart', () => {
-        }, false);
+        document.addEventListener('touchstart', () => {}, false);
     }, [dispatch]);
 
     return (
