@@ -39,15 +39,15 @@ const Pay = () => {
             <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <FormGroup>
                     <InputGroup>
-                        <InputText type="tel" name="card" placeholder="credit card number" ref={register({ required: true })} />
+                        <InputText type="tel" name="card" maxLength="16" placeholder="credit card number" ref={register({ required: true })} />
                         {errors.card && <ValidateErrorMsg>Card is required</ValidateErrorMsg>}
                     </InputGroup>
                     <InputGroup>
-                        <InputText type="tel" name="expire" placeholder="expiration date(MMYY) " ref={register({ required: true })} />
+                        <InputText type="tel" name="expire" maxLength="4" placeholder="expiration date(MMYY) " ref={register({ required: true })} />
                         {errors.expire && <ValidateErrorMsg>Expiration date is required</ValidateErrorMsg>}
                     </InputGroup>
                     <InputGroup>
-                        <InputText type="tel" name="code" placeholder="security code" ref={register({ required: true })} />
+                        <InputText type="tel" name="code" maxLength="3" placeholder="security code" ref={register({ required: true })} />
                         {errors.code && <ValidateErrorMsg>Security code is required</ValidateErrorMsg>}
                     </InputGroup>
                 </FormGroup>

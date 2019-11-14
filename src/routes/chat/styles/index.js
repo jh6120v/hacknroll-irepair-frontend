@@ -46,12 +46,12 @@ const ChatBoxContainer = styled.div`
   margin-bottom: 13px;
   align-self: flex-start;
   ${(props) => {
-        if (props.theme.isSelf) {
-            return css`
+    if (props.theme.isSelf) {
+        return css`
           flex-direction: row-reverse;
         `;
-        }
-    }}
+    }
+}}
 `;
 
 const ChatBoxContent = styled.div`
@@ -85,18 +85,18 @@ const Dialog = styled.div`
   flex-wrap: wrap;
   width: ${(props) => (props.theme.isSelf ? '100%' : 'calc(100% - 58px)')};
   ${(props) => {
-        if (props.theme.isSelf) {
-            return css`
+    if (props.theme.isSelf) {
+        return css`
               width: 100%;
               margin-right: 5px;
             `;
-        }
+    }
 
-        return css`
+    return css`
           width: calc(100% - 58px);
           margin-left: 11px;
         `;
-    }};
+}};
 `;
 
 const Author = styled.div`
@@ -118,39 +118,39 @@ const Bubble = styled.div`
   z-index: 1;
   white-space: pre-line;
   ${(props) => {
-        if (props.theme.isSelf) {
-            return css`
+    if (props.theme.isSelf) {
+        return css`
           padding: 8px 12px 8px 11px;
           margin-right: 5px;
           color: #fff;
           background-color: #f1828d;
         `;
-        }
-        return css`
+    }
+    return css`
           padding: 8px 11px 8px 12px;
           color: #1a1a1a;
           background-color: #f1f2f3;
         `;
-    }};
+}};
   &::after {
     content: '';
     position: absolute;
     ${(props) => {
-        if (props.theme.isSelf) {
-            return css`
+    if (props.theme.isSelf) {
+        return css`
               right: -7px;
               top: -8px;
               background-image: url(${tailRight});
               background-position: right top;
             `;
-        }
-        return css`
+    }
+    return css`
               left: -6px;
               top: -1px;
               background-image: url(${tailLeft});
               background-position: left top;
             `;
-    }};
+}};
     width: 21px;
     height: 25px;
     background-repeat: no-repeat;
@@ -171,17 +171,13 @@ const ChatBar = styled.div`
   width: 100%;
   background-color: #f1828d;
   z-index: 3;
-  padding: 0 11px;  
 `;
 
 const ChatBarInner = styled.div`
   display: flex;
   width: 100%;
-  align-items: flex-end;
   justify-content: space-around;
   align-items: center;
-  margin-top: 15px;
-  margin-bottom: ${(props) => props.toggleKeyboard || props.safeArea.sab === '0px' ? '18px' : 'env(safe-area-inset-bottom)'};
 `;
 
 const Camera = styled.div`
@@ -193,6 +189,21 @@ const Camera = styled.div`
   background-position: center center;
   background-size: 31px 31px;
   overflow: hidden;
+  padding-left: 11px;
+  padding-top: 15px;
+  ${(props) => {
+        if (props.toggleKeyboard || props.safeArea.sab === '0px') {
+            return css`
+              height: calc(15px + 37px + 18px);
+              padding-bottom: 18px;
+            `;
+        }
+
+        return css`
+          height: calc(15px + 37px + env(safe-area-inset-bottom));
+          padding-bottom: env(safe-area-inset-bottom);
+        `;
+    }};
   & > input {
     opacity: 0;
     height: 100%;
@@ -227,6 +238,21 @@ const Sent = styled.div`
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 31px 31px;
+  padding-right: 11px;
+  padding-top: 15px;
+  ${(props) => {
+        if (props.toggleKeyboard || props.safeArea.sab === '0px') {
+            return css`
+              height: calc(15px + 37px + 18px);
+              padding-bottom: 18px;
+            `;
+        }
+
+        return css`
+          height: calc(15px + 37px + env(safe-area-inset-bottom));
+          padding-bottom: env(safe-area-inset-bottom);
+        `;
+    }};
 `;
 
 export {

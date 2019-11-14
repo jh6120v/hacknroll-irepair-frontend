@@ -1,11 +1,11 @@
 import React, {
-    useRef, useCallback, useEffect, useState
+    useRef, useCallback, useEffect, useState, useMemo
 } from 'react';
 import Resizer from 'react-image-file-resizer';
 import TextareaAutosize from 'react-textarea-autosize';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import ReconnectingWebSocket from 'reconnecting-websocket';
+import useWebSocket from 'react-use-websocket';
 import Navigate from '../../../components/navigate';
 import { FUNC_GO_BACK } from '../../../constants';
 import { ContainerInner } from '../../../styles/layout-style';
@@ -18,12 +18,10 @@ import {
     Sent, ChatBarInner
 } from '../styles';
 import ChatBox from '../components/chat-box';
-import { useModel, useTimer, useWebSocket } from '../../../commons/hooks';
+import { useModel, useTimer } from '../../../commons/hooks';
 import Model from '../../../components/model';
 import { history } from '../../../store';
 import { messagePush, messageReset } from '../modules/chat-message';
-
-const wss = new ReconnectingWebSocket('wss://dxl9ub4w15.execute-api.us-west-2.amazonaws.com/stage');
 
 const Chat = () => {
     const dispatch = useDispatch();
@@ -58,24 +56,25 @@ const Chat = () => {
         }, 0);
     }, []);
 
-    const webSocket = useWebSocket(wss, {
+    const didUnmount = useRef(false);
+
+    const STATIC_OPTIONS = useMemo(() => ({
         onOpen: (e) => console.log(e),
-        onMessage: (msg) => {
+        onMessage: (e) => {
+            console.log(e.data);
+
             dispatch(messagePush({
-                singleMessage: msg
+                singleMessage: JSON.parse(e.data)
             }));
 
             scrollBottom();
         },
         onClose: (e) => console.log(e),
-        onError: (e) => console.log(e)
-    });
+        onError: (e) => console.log(e),
+        shouldReconnect: () => didUnmount.current === false,
+    }), []);
 
-    useEffect(() => {
-        return () => {
-            dispatch(messageReset());
-        };
-    }, [dispatch]);
+    const [sendMessage] = useWebSocket('wss://dxl9ub4w15.execute-api.us-west-2.amazonaws.com/stage', STATIC_OPTIONS);
 
     useEffect(() => {
         if (author === 'Guest') {
@@ -90,7 +89,11 @@ const Chat = () => {
         });
 
         return () => {
+            didUnmount.current = true;
+
             timer.setTimerState('reset');
+
+            dispatch(messageReset());
         };
     }, []);
 
@@ -103,7 +106,7 @@ const Chat = () => {
             return false;
         }
 
-        webSocket.send(JSON.stringify({
+        sendMessage(JSON.stringify({
             action: 'sendmessage',
             data: {
                 id,
@@ -134,10 +137,10 @@ const Chat = () => {
                 300,
                 300,
                 'JPEG',
-                100,
+                85,
                 0,
                 (uri) => {
-                    webSocket.send(JSON.stringify({
+                    sendMessage(JSON.stringify({
                         action: 'sendmessage',
                         data: {
                             id,
@@ -176,8 +179,8 @@ const Chat = () => {
                     }
                 </ChatContent>
                 <ChatBar>
-                    <ChatBarInner safeArea={safeArea} toggleKeyboard={toggleKeyboard}>
-                        <Camera>
+                    <ChatBarInner>
+                        <Camera safeArea={safeArea} toggleKeyboard={toggleKeyboard}>
                             <input type="file" onChange={fileChangedHandler} />
                         </Camera>
                         <TypingBar>
@@ -202,7 +205,7 @@ const Chat = () => {
                                 }}
                             />
                         </TypingBar>
-                        <Sent onClick={sent} />
+                        <Sent safeArea={safeArea} toggleKeyboard={toggleKeyboard} onClick={sent} />
                     </ChatBarInner>
                 </ChatBar>
             </ChatContainer>

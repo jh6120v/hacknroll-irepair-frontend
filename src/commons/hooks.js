@@ -51,44 +51,6 @@ const useModel = (title, message = null, confirm = null, confirmText = 'Confirm'
     };
 };
 
-const useWebSocket = (wss, {
-    onOpen, onMessage, onClose, onError
-}) => {
-    const connect = () => {
-        wss.onopen = (e) => {
-            console.log('on open.');
-
-            onOpen(e);
-        };
-
-        wss.onmessage = (e) => {
-            const receivedMsg = JSON.parse(e.data);
-
-            onMessage(receivedMsg, e);
-        };
-
-        wss.onclose = (e) => {
-            onClose(e);
-
-            console.log('Socket is closed.', e.reason);
-        };
-
-        wss.onerror = (err) => {
-            onError(err);
-
-            console.error('Socket encountered error: ', err.message);
-
-            wss.close();
-        };
-    };
-
-    useEffect(() => {
-        connect();
-    }, []);
-
-    return wss;
-};
-
 const useTimer = (initialTime = 0, direction = 'forward', onSuccess) => {
     const [timerState, setTimerState] = useState('reset');
 
@@ -139,6 +101,5 @@ const useTimer = (initialTime = 0, direction = 'forward', onSuccess) => {
 
 export {
     useModel,
-    useTimer,
-    useWebSocket
+    useTimer
 };

@@ -73,13 +73,40 @@ const PanelButton = styled.div`
     }}
 `;
 
-const TabBar = styled.div`
+const TabBarWrap = styled.div`
   position: fixed;
   left: 0;
   bottom: 0;
+  z-index: 3;
+  display: flex;
+  flex-wrap: nowrap;
   width: 100%;
   height: 83px;
   background-color: #fff;
+  border-top: .5px solid rgba(4, 4, 15, .4);
+`;
+
+const TabBarItem = styled.div`
+  flex: 1 1 auto;
+  height: 100%;
+`;
+
+const TabBarIcon = styled.div`
+  width: 100%;
+  height: 32px;
+  background-size: contain;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-image: url(${((props) => props.icon)});
+  margin: 4px 0 2px 0;
+`;
+
+const TabBarText = styled.div`
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  line-height: 12px;
+  color: ${(props) => (props.isSelected ? '#f1828d' : '#828282')};
 `;
 
 export {
@@ -87,5 +114,8 @@ export {
     PanelTitle,
     PanelButtonWrap,
     PanelButton,
-    TabBar
+    TabBarWrap,
+    TabBarItem,
+    TabBarIcon,
+    TabBarText
 };
