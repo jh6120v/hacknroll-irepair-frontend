@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const Form = styled.form`
   width: 100%;
@@ -20,6 +20,14 @@ const InputGroup = styled.div`
   overflow: hidden;
   margin-bottom: 20px;
   background-color: #fff;
+  ${(props) => {
+        if (props.isError) {
+            return css`
+          border: 2px solid #ff6f89;
+          box-shadow: 0 0 10px 1px #fff;
+        `;
+        }
+    }};
 `;
 
 const InputText = styled.input`

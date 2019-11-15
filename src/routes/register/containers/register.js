@@ -39,19 +39,20 @@ const Register = () => {
             <Header>
                 <Logo />
             </Header>
-            <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" novalidate>
+            <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" noValidate>
                 <FormGroup>
-                    <InputGroup>
-                        <InputText name="name" placeholder="name" ref={register({ required: true })} />
-                        {errors.name && <ValidateErrorMsg>Name is required</ValidateErrorMsg>}
+                    <InputGroup isError={!!errors.name}>
+                        <InputText
+                            name="name"
+                            placeholder="name"
+                            ref={register({ required: true })}
+                        />
                     </InputGroup>
-                    <InputGroup>
+                    <InputGroup isError={!!errors.mobile}>
                         <InputText type="tel" name="mobile" maxLength="10" placeholder="mobile" ref={register({ required: true })} />
-                        {errors.mobile && <ValidateErrorMsg>Mobile is required</ValidateErrorMsg>}
                     </InputGroup>
-                    <InputGroup>
+                    <InputGroup isError={!!errors.email}>
                         <InputText type="email" name="email" placeholder="e-mail" ref={register({ required: true })} />
-                        {errors.email && <ValidateErrorMsg>Email is required</ValidateErrorMsg>}
                     </InputGroup>
                 </FormGroup>
                 <ButtonGroup>
