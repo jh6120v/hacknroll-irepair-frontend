@@ -39,7 +39,7 @@ const Register = () => {
             <Header>
                 <Logo />
             </Header>
-            <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+            <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" novalidate>
                 <FormGroup>
                     <InputGroup>
                         <InputText name="name" placeholder="name" ref={register({ required: true })} />

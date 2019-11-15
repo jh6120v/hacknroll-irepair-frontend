@@ -36,7 +36,7 @@ const Pay = () => {
             <Header>
                 <Logo />
             </Header>
-            <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+            <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off" novalidate>
                 <FormGroup>
                     <InputGroup>
                         <InputText type="tel" name="card" maxLength="16" placeholder="credit card number" ref={register({ required: true })} />

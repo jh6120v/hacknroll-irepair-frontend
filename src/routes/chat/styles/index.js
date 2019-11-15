@@ -181,12 +181,12 @@ const ChatBarInner = styled.div`
 `;
 
 const Camera = styled.div`
+  display: flex;
   flex: 1 1 auto;
   width: 37px;
-  height: 37px;
+  min-height: 100%;
   background-image: url(${camera});
   background-repeat: no-repeat;
-  background-position: center center;
   background-size: 31px 31px;
   overflow: hidden;
   padding-left: 11px;
@@ -194,13 +194,13 @@ const Camera = styled.div`
   ${(props) => {
         if (props.toggleKeyboard || props.safeArea.sab === '0px') {
             return css`
-              height: calc(15px + 37px + 18px);
+              background-position: center bottom 18px;
               padding-bottom: 18px;
             `;
         }
 
         return css`
-          height: calc(15px + 37px + env(safe-area-inset-bottom));
+          background-position: center bottom env(safe-area-inset-bottom);
           padding-bottom: env(safe-area-inset-bottom);
         `;
     }};
@@ -217,6 +217,19 @@ const TypingBar = styled.div`
   overflow: hidden;
   background-color: #fff;
   border-radius: 17.5px;
+  margin-top: 15px;
+  min-height: 37px;
+  ${(props) => {
+    if (props.toggleKeyboard || props.safeArea.sab === '0px') {
+        return css`
+              margin-bottom: 18px;
+            `;
+    }
+
+    return css`
+          margin-bottom: env(safe-area-inset-bottom);
+        `;
+}};
   > textarea {
     width: 100%;
     padding: 8px 15px;
@@ -233,7 +246,7 @@ const TypingBar = styled.div`
 const Sent = styled.div`
   flex: 1 1 auto;
   width: 37px;
-  height: 37px;
+  min-height: 100%;
   background-image: url(${sent});
   background-repeat: no-repeat;
   background-position: center center;
@@ -243,13 +256,13 @@ const Sent = styled.div`
   ${(props) => {
         if (props.toggleKeyboard || props.safeArea.sab === '0px') {
             return css`
-              height: calc(15px + 37px + 18px);
+              background-position: center bottom 18px;
               padding-bottom: 18px;
             `;
         }
 
         return css`
-          height: calc(15px + 37px + env(safe-area-inset-bottom));
+          background-position: center bottom env(safe-area-inset-bottom);
           padding-bottom: env(safe-area-inset-bottom);
         `;
     }};

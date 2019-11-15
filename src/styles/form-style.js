@@ -15,21 +15,23 @@ const InputGroup = styled.div`
   align-items: center;
   flex-wrap: wrap;
   width: 100%;
-  min-height: 55px;
+  height: 55px;
   border-radius: 5px;
   overflow: hidden;
   margin-bottom: 20px;
+  background-color: #fff;
 `;
 
 const InputText = styled.input`
   width: 100%;
-  height: 55px;
-  line-height: 55px;
+  height: 35px;
+  line-height: 35px;
   font-size: 18px;
   letter-spacing: .3px;
   color: #f1828d;
   text-align: center;
   border-width: 0;
+  -webkit-text-fill-color: #f1828d;
   &::placeholder {
     color: #f1828d;
     text-align: center;

@@ -59,18 +59,13 @@ const Chat = () => {
     const didUnmount = useRef(false);
 
     const STATIC_OPTIONS = useMemo(() => ({
-        onOpen: (e) => console.log(e),
         onMessage: (e) => {
-            console.log(e.data);
-
             dispatch(messagePush({
                 singleMessage: JSON.parse(e.data)
             }));
 
             scrollBottom();
         },
-        onClose: (e) => console.log(e),
-        onError: (e) => console.log(e),
         shouldReconnect: () => didUnmount.current === false,
     }), []);
 
@@ -102,27 +97,23 @@ const Chat = () => {
 
         inputNode.current.focus();
 
-        if (inputNode.current.value === '') {
-            return false;
+        if (inputNode.current.value !== '') {
+            sendMessage(JSON.stringify({
+                action: 'sendmessage',
+                data: {
+                    id,
+                    author,
+                    avatar,
+                    message: inputNode.current.value,
+                    images: null,
+                    time: +moment()
+                }
+            }));
+
+            inputNode.current.value = '';
+
+            scrollBottom();
         }
-
-        sendMessage(JSON.stringify({
-            action: 'sendmessage',
-            data: {
-                id,
-                author,
-                avatar,
-                message: inputNode.current.value,
-                images: null,
-                time: +moment()
-            }
-        }));
-
-        inputNode.current.value = '';
-
-        scrollBottom();
-
-        return true;
     }, []);
 
     const fileChangedHandler = (event) => {
@@ -140,6 +131,7 @@ const Chat = () => {
                 85,
                 0,
                 (uri) => {
+                    console.log(uri);
                     sendMessage(JSON.stringify({
                         action: 'sendmessage',
                         data: {
@@ -181,9 +173,9 @@ const Chat = () => {
                 <ChatBar>
                     <ChatBarInner>
                         <Camera safeArea={safeArea} toggleKeyboard={toggleKeyboard}>
-                            <input type="file" onChange={fileChangedHandler} />
+                            <input type="file" onChange={fileChangedHandler} style={{ alignSelf: 'flex-end' }} />
                         </Camera>
-                        <TypingBar>
+                        <TypingBar safeArea={safeArea} toggleKeyboard={toggleKeyboard}>
                             <TextareaAutosize
                                 inputRef={inputNode}
                                 minRows={1}
