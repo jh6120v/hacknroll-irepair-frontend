@@ -219,23 +219,13 @@ const TypingBar = styled.div`
   border-radius: 17.5px;
   margin-top: 15px;
   min-height: 37px;
-  ${(props) => {
-    if (props.toggleKeyboard || props.safeArea.sab === '0px') {
-        return css`
-              margin-bottom: 18px;
-            `;
-    }
-
-    return css`
-          margin-bottom: env(safe-area-inset-bottom);
-        `;
-}};
+  margin-bottom: ${(props) => (props.toggleKeyboard || props.safeArea.sab === '0px' ? '18px' : 'env(safe-area-inset-bottom)')};
   > textarea {
     width: 100%;
     padding: 8px 15px;
     color: #f1828d;
     font-size: 15px;
-    line-height: 17px;
+    line-height: 21px;
   }
   > ::placeholder {
     color: #f1828d;

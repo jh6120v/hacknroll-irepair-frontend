@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import moment from 'moment';
 import { LazyLoad } from '../styles/common-style';
+import { WEBSOCKET_URL } from '../constants';
 
 export const createActionCreator = (namespace) => (actionType) => {
     const type = `${namespace}/${actionType}`;
@@ -41,3 +42,5 @@ export const getRandomAvatar = () => {
 
     return avatarList[key];
 };
+
+export const getWebSocketUrl = (roomId = '') => WEBSOCKET_URL + roomId;

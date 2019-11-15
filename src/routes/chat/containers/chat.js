@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import useWebSocket from 'react-use-websocket';
 import Navigate from '../../../components/navigate';
-import { FUNC_GO_BACK } from '../../../constants';
+import { CHAT_ROOM_ID, FUNC_GO_BACK, WEBSOCKET_URL } from '../../../constants';
 import { ContainerInner } from '../../../styles/layout-style';
 import {
     Camera,
@@ -22,6 +22,7 @@ import { useModel, useTimer } from '../../../commons/hooks';
 import Model from '../../../components/model';
 import { history } from '../../../store';
 import { messagePush, messageReset } from '../modules/chat-message';
+import { getWebSocketUrl } from '../../../commons/utils';
 
 const Chat = () => {
     const dispatch = useDispatch();
@@ -60,16 +61,23 @@ const Chat = () => {
 
     const STATIC_OPTIONS = useMemo(() => ({
         onMessage: (e) => {
-            dispatch(messagePush({
-                singleMessage: JSON.parse(e.data)
-            }));
+            console.log(e);
+            const msgData = JSON.parse(e.data).data;
+            // const msgData = JSON.parse(e.data);
 
-            scrollBottom();
+            if (msgData.message !== 'forbidden') {
+                dispatch(messagePush({
+                    singleMessage: msgData
+                }));
+
+                scrollBottom();
+            }
         },
         shouldReconnect: () => didUnmount.current === false,
     }), []);
 
-    const [sendMessage] = useWebSocket('wss://dxl9ub4w15.execute-api.us-west-2.amazonaws.com/stage', STATIC_OPTIONS);
+    const webSocketUrl = getWebSocketUrl(CHAT_ROOM_ID);
+    const [sendMessage] = useWebSocket(webSocketUrl, STATIC_OPTIONS);
 
     useEffect(() => {
         if (author === 'Guest') {
@@ -88,7 +96,9 @@ const Chat = () => {
 
             timer.setTimerState('reset');
 
-            dispatch(messageReset());
+            if (author === 'Guest') {
+                dispatch(messageReset());
+            }
         };
     }, []);
 
@@ -131,7 +141,6 @@ const Chat = () => {
                 85,
                 0,
                 (uri) => {
-                    console.log(uri);
                     sendMessage(JSON.stringify({
                         action: 'sendmessage',
                         data: {
