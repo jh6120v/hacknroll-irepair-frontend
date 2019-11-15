@@ -8,8 +8,7 @@ import {
     FormGroup,
     InputGroup,
     InputText,
-    SubmitBtn,
-    ValidateErrorMsg
+    SubmitBtn
 } from '../../../styles/form-style';
 import { useModel } from '../../../commons/hooks';
 import Model from '../../../components/model';

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import useWebSocket from 'react-use-websocket';
 import Navigate from '../../../components/navigate';
-import { CHAT_ROOM_ID, FUNC_GO_BACK, WEBSOCKET_URL } from '../../../constants';
+import { CHAT_INITIAL_MESSAGE, CHAT_ROOM_ID, FUNC_GO_BACK, WEBSOCKET_URL } from '../../../constants';
 import { ContainerInner } from '../../../styles/layout-style';
 import {
     Camera,
