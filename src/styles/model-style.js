@@ -63,7 +63,7 @@ const Button = styled.div`
   &:last-child:not(:first-child) {
     border-right: none;
   }
-  color: ${(props) => props.type === 'confirm' ? '#007aff' : '#8e8e93'};
+  color: ${(props) => (props.type === 'confirm' ? '#007aff' : '#8e8e93')};
 `;
 
 export {

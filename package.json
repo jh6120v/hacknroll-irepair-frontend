@@ -82,15 +82,18 @@
     "jest-styled-components": "^6.3.3",
     "path": "^0.12.7",
     "react-test-renderer": "^16.11.0",
-    "redux-saga-test-plan": "^4.0.0-rc.3"
+    "redux-saga-test-plan": "^4.0.0-rc.3",
+    "start-server-and-test": "^1.10.6"
   },
   "scripts": {
-    "dev": "webpack-dev-server --devtool eval --progress --colors --hot --content-base build --historyApiFallback --config webpack.dev.config.js",
+    "start": "webpack-dev-server --devtool eval --progress --colors --hot --content-base build --historyApiFallback --config webpack.dev.config.js",
     "prod": "webpack --config webpack.prod.config.js",
     "analyze": "webpack --config webpack.prod.config.js --profile --json > stats.json",
     "report": "webpack-bundle-analyzer ./stats.json",
     "test": "jest --coverage",
-    "test:single": "node ./node_modules/jest-single-file-coverage"
+    "test:single": "node ./node_modules/jest-single-file-coverage",
+    "test:cypress": "start-server-and-test start http://localhost:8009 cypress",
+    "cypress": "cypress run"
   },
   "jest": {
     "setupFiles": [
@@ -113,6 +116,8 @@
       "src/commons/*.js",
       "src/components/*.js",
       "src/modules/*.js",
+      "src/routes/chat/components/*.js",
+      "src/routes/chat/modules/*.js",
       "src/sagas/*.js",
       "!src/assets/*.*"
     ]

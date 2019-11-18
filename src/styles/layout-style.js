@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { respondTo } from './_mixin';
 import logo from '../assets/images/i-repair-logo.svg';
 

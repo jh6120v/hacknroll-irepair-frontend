@@ -5,7 +5,7 @@ export const CHAT_MESSAGE = 'CHAT_MESSAGE';
 
 export const CHAT_ROOM_ID = '20191116001';
 
-// https://nchan.iphpo.com/pubsub?id=
+// wss://nchan.iphpo.com/pubsub?id=
 export const WEBSOCKET_URL = 'wss://nchan.iphpo.com/pubsub?id=';
 // export const WEBSOCKET_URL = 'wss://dxl9ub4w15.execute-api.us-west-2.amazonaws.com/stage';
 

@@ -23,9 +23,9 @@ const InputGroup = styled.div`
   ${(props) => {
         if (props.isError) {
             return css`
-          border: 2px solid #ff6f89;
-          box-shadow: 0 0 10px 1px #fff;
-        `;
+              border: 2px solid #ff6f89;
+              box-shadow: 0 0 10px 1px #fff;
+            `;
         }
     }};
 `;

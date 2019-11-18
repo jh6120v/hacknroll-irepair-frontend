@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import useForm from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import { ContainerInner, Header, Logo } from '../../../styles/layout-style';
 import {
     ButtonGroup,
@@ -7,11 +8,9 @@ import {
     FormGroup,
     InputGroup,
     InputText,
-    SubmitBtn,
-    ValidateErrorMsg
+    SubmitBtn
 } from '../../../styles/form-style';
 import { history } from '../../../store';
-import { useDispatch, useSelector } from 'react-redux';
 import { personalSettingSet } from '../../../modules/personal-setting';
 
 const Register = () => {
@@ -28,7 +27,8 @@ const Register = () => {
         dispatch(personalSettingSet({
             id,
             author: data.name,
-            avatar
+            avatar,
+            isGuest: false
         }));
 
         linkTo('pay');

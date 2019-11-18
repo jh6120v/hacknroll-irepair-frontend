@@ -1,4 +1,4 @@
-import { createActionCreator, getRandomAvatar, getRandomID } from '../commons/utils';
+import { createActionCreator, getRandomAuthor, getRandomAvatar, getRandomID } from '../commons/utils';
 import { createReducer } from '../store/reducers';
 
 // Actions
@@ -11,8 +11,9 @@ export { personalSettingSet };
 // Reducers
 const initialState = {
     id: getRandomID(),
-    author: 'Guest',
-    avatar: getRandomAvatar()
+    author: getRandomAuthor(),
+    avatar: getRandomAvatar(),
+    isGuest: true
 };
 
 const handlers = {

@@ -44,3 +44,32 @@ export const getRandomAvatar = () => {
 };
 
 export const getWebSocketUrl = (roomId = '') => WEBSOCKET_URL + roomId;
+
+export const getRandomAuthor = () => {
+    const authorList = [
+        'Cosmo',
+        'Hunk',
+        'Jerome',
+        'Gary',
+        'Phoebe',
+        'Rock',
+        'Spark',
+        'Vincent',
+        'Bess',
+        'Ella',
+        'Cherry',
+        'Flora',
+        'Ivy',
+        'Kelly',
+        'Maggie',
+        'Nicole',
+        'Sami',
+        'Polly',
+        'Vera',
+        'Zora'
+    ];
+
+    const key = getRandom(0, 19);
+
+    return authorList[key];
+};

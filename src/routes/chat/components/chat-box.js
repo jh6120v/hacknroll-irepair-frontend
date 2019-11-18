@@ -22,18 +22,18 @@ const ChatBox = ({
                     }
                     <Dialog>
                         {
-                            isSelf ? null : <Author>{author}</Author>
+                            isSelf ? null : <Author data-testid="author">{author}</Author>
                         }
                         {
                             images ? (
                                 <Img>
                                     <img src={images} />
                                 </Img>
-                            ) : <Bubble>{message}</Bubble>
+                            ) : <Bubble data-testid="message">{message}</Bubble>
                         }
                     </Dialog>
                 </ChatBoxContent>
-                <Time>{time}</Time>
+                <Time data-testid="time">{time}</Time>
             </ChatBoxContainer>
         </ThemeProvider>
     );

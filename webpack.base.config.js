@@ -2,7 +2,6 @@ const path = require('path');
 
 // 這邊使用 HtmlWebpackPlugin，將 bundle 好的 <script> 插入到 body。${__dirname} 為 ES6 語法對應到 __dirname
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
@@ -45,10 +44,6 @@ module.exports = {
     },
     // plugins 放置所使用的外掛
     plugins: [
-        new CleanWebpackPlugin({
-            cleanOnceBeforeBuildPatterns: [`${__dirname}/dist`],
-            verbose: true,
-        }),
         new HtmlWebpackPlugin({
             template: `${__dirname}/index.html`,
             filename: 'index.html',

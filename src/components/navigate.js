@@ -24,9 +24,9 @@ const Navigate = ({ title, prev, next }) => {
 
     return (
         <Nav>
-            <PrevLink>{renderPrev(prev)}</PrevLink>
-            <Title>{title}</Title>
-            <NextLink>{renderNext(next)}</NextLink>
+            <PrevLink data-testid="display_prev_link">{renderPrev(prev)}</PrevLink>
+            <Title data-testid="display_title">{title}</Title>
+            <NextLink data-testid="display_next_link">{renderNext(next)}</NextLink>
         </Nav>
     );
 };

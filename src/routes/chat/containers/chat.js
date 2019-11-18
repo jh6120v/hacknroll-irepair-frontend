@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import useWebSocket from 'react-use-websocket';
 import Navigate from '../../../components/navigate';
-import { CHAT_INITIAL_MESSAGE, CHAT_ROOM_ID, FUNC_GO_BACK, WEBSOCKET_URL } from '../../../constants';
+import { CHAT_ROOM_ID, FUNC_GO_BACK } from '../../../constants';
 import { ContainerInner } from '../../../styles/layout-style';
 import {
     Camera,
@@ -27,7 +27,9 @@ import { getWebSocketUrl } from '../../../commons/utils';
 const Chat = () => {
     const dispatch = useDispatch();
     const { message } = useSelector((state) => state.chatMessage);
-    const { id, author, avatar } = useSelector((state) => state.personal);
+    const {
+        id, author, avatar, isGuest
+    } = useSelector((state) => state.personal);
     const [safeArea, setSafeArea] = useState({});
     const [toggleKeyboard, setToggleKeyboard] = useState(false);
     const linkTo = useCallback((url) => history.push(url), []);
@@ -79,29 +81,6 @@ const Chat = () => {
     const webSocketUrl = getWebSocketUrl(CHAT_ROOM_ID);
     const [sendMessage] = useWebSocket(webSocketUrl, STATIC_OPTIONS);
 
-    useEffect(() => {
-        if (author === 'Guest') {
-            timer.setTimerState('started');
-        }
-
-        setSafeArea({
-            sat: getComputedStyle(document.documentElement).getPropertyValue('--sat'),
-            sar: getComputedStyle(document.documentElement).getPropertyValue('--sar'),
-            sab: getComputedStyle(document.documentElement).getPropertyValue('--sab'),
-            sal: getComputedStyle(document.documentElement).getPropertyValue('--sal')
-        });
-
-        return () => {
-            didUnmount.current = true;
-
-            timer.setTimerState('reset');
-
-            if (author === 'Guest') {
-                dispatch(messageReset());
-            }
-        };
-    }, []);
-
     const sent = useCallback(() => {
         console.log('send');
 
@@ -124,6 +103,41 @@ const Chat = () => {
 
             scrollBottom();
         }
+    }, []);
+
+    useEffect(() => {
+        if (isGuest) {
+            timer.setTimerState('started');
+        }
+
+        setSafeArea({
+            sat: getComputedStyle(document.documentElement).getPropertyValue('--sat'),
+            sar: getComputedStyle(document.documentElement).getPropertyValue('--sar'),
+            sab: getComputedStyle(document.documentElement).getPropertyValue('--sab'),
+            sal: getComputedStyle(document.documentElement).getPropertyValue('--sal')
+        });
+
+        const keyboardEnter = (e) => {
+            console.log(toggleKeyboard);
+            if ((e.metaKey || e.ctrlKey) && e.keyCode === 13) {
+                console.log(e);
+                sent();
+            }
+        };
+
+        document.addEventListener('keydown', keyboardEnter);
+
+        return () => {
+            didUnmount.current = true;
+
+            timer.setTimerState('reset');
+
+            if (isGuest) {
+                dispatch(messageReset());
+            }
+
+            document.removeEventListener('keydown', keyboardEnter);
+        };
     }, []);
 
     const fileChangedHandler = (event) => {

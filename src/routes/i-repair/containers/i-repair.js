@@ -7,7 +7,7 @@ import TabBar from '../components/tab-bar';
 
 const IRepair = () => {
     const [modeOpen, setModeOpen] = useState(false);
-    const { author } = useSelector((state) => state.personal);
+    const { isGuest } = useSelector((state) => state.personal);
 
     return (
         <ContainerInner>
@@ -20,7 +20,7 @@ const IRepair = () => {
                     <ModePanel isVisible={modeOpen} />
                 ) : null
             }
-            {author === 'Guest' ? null : <TabBar />}
+            {isGuest ? null : <TabBar />}
         </ContainerInner>
     );
 };
