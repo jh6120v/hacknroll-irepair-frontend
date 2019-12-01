@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 import icon1 from '../../../assets/images/btn-icon-1.svg';
 import icon2 from '../../../assets/images/btn-icon-2.svg';
 import icon3 from '../../../assets/images/btn-icon-3.svg';
+import { respondTo } from '../../../styles/_mixin';
 
 const Panel = styled.div`
   display: flex;
@@ -84,6 +85,11 @@ const TabBarWrap = styled.div`
   height: 83px;
   background-color: #fff;
   border-top: .5px solid rgba(4, 4, 15, .4);
+  ${respondTo.xs`
+    left: 50%;
+    width: 400px;
+    margin-left: -200px;
+  `}
 `;
 
 const TabBarItem = styled.div`

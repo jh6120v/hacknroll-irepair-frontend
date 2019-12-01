@@ -1,6 +1,6 @@
 import Chat from './containers/chat';
 import { injectReducer } from '../../store/reducers';
-import chatMessageReducer from './modules/chat-message'
+import chatMessageReducer from './modules/chat-message';
 import { history, store } from '../../store';
 
 // reducer
