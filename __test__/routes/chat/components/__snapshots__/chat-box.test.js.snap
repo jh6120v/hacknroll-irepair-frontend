@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test chat-box component. test <ChatBox /> snapshot render with images props. 1`] = `
+<div
+  class="sc-bxivhb ksdOAy"
+>
+  <div
+    class="sc-ifAKCX kWalcW"
+  >
+    <div
+      class="sc-bZQynM dZOkkL"
+    />
+    <div
+      class="sc-gzVnrw kwznsF"
+    >
+      <div
+        class="sc-htoDjs nQyXR"
+        data-testid="author"
+      />
+      <div
+        class="sc-iwsKbI fLEBAd"
+      >
+        <img
+          src="images"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="sc-EHOje iFzWVO"
+    data-testid="time"
+  />
+</div>
+`;
+
+exports[`test chat-box component. test <ChatBox /> snapshot render with isSelf equal to true 1`] = `
+<div
+  class="sc-bxivhb hjdqxo"
+>
+  <div
+    class="sc-ifAKCX dttElF"
+  >
+    <div
+      class="sc-gzVnrw LkRjp"
+    >
+      <div
+        class="sc-dnqmqq bzTNDS"
+        data-testid="message"
+      />
+    </div>
+  </div>
+  <div
+    class="sc-EHOje iFzWVO"
+    data-testid="time"
+  />
+</div>
+`;
+
+exports[`test chat-box component. test <ChatBox /> snapshot. 1`] = `
+<div
+  class="sc-bxivhb ksdOAy"
+>
+  <div
+    class="sc-ifAKCX kWalcW"
+  >
+    <div
+      class="sc-bZQynM dZOkkL"
+    />
+    <div
+      class="sc-gzVnrw kwznsF"
+    >
+      <div
+        class="sc-htoDjs nQyXR"
+        data-testid="author"
+      />
+      <div
+        class="sc-dnqmqq dKlddl"
+        data-testid="message"
+      />
+    </div>
+  </div>
+  <div
+    class="sc-EHOje iFzWVO"
+    data-testid="time"
+  />
+</div>
+`;

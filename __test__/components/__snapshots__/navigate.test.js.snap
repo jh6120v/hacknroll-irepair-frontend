@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test header component. test <Navigate /> snapshot. 1`] = `
+<div
+  class="sc-bdVaJa ckITkV"
+>
+  <div
+    class="sc-htpNat egkiwT"
+    data-testid="display_prev_link"
+  />
+  <div
+    class="sc-bwzfXH eyLlis"
+    data-testid="display_title"
+  />
+  <div
+    class="sc-htpNat sc-bxivhb ubgqH"
+    data-testid="display_next_link"
+  />
+</div>
+`;
