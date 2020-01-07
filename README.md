@@ -12,7 +12,6 @@ This is a AWS Hack'n'Roll competition works
 ## Website
 ![image](qrcode.png)
  - https://i-repair-11e98.firebaseapp.com/
- - https://i-repair.dailyofjames.com/
 
 ## how to install PWA on IOS
 1. Open Safari on your iPhone.
